@@ -1,0 +1,122 @@
+{
+  "settings": {
+    "maxAge": 90,
+    "baseDeathByAge": [
+      { "age": 60, "chance": 0.01 },
+      { "age": 70, "chance": 0.03 },
+      { "age": 80, "chance": 0.08 },
+      { "age": 90, "chance": 1.0 }
+    ]
+  },
+  "initialStats": {
+    "hp": 100,
+    "intelligence": 5,
+    "strength": 5,
+    "mood": 5,
+    "wealth": 5
+  },
+  "events": [
+    {
+      "id": "kindergarten",
+      "title": "幼儿园才艺表演",
+      "description": "你在台上背古诗，赢得老师夸奖。",
+      "minAge": 3,
+      "maxAge": 6,
+      "weight": 8,
+      "once": true,
+      "effects": { "mood": 2, "intelligence": 1 }
+    },
+    {
+      "id": "fall_sick",
+      "title": "换季感冒",
+      "description": "你发烧躺了两天，状态有点差。",
+      "minAge": 1,
+      "maxAge": 90,
+      "weight": 6,
+      "effects": { "hp": -10, "mood": -1 }
+    },
+    {
+      "id": "study_hard",
+      "title": "自律学习",
+      "description": "你坚持学习，成绩明显进步。",
+      "minAge": 8,
+      "maxAge": 22,
+      "weight": 9,
+      "effects": { "intelligence": 2, "mood": -1 }
+    },
+    {
+      "id": "gaming_night",
+      "title": "通宵打游戏",
+      "description": "你玩得很爽，但第二天有些疲惫。",
+      "minAge": 12,
+      "maxAge": 35,
+      "weight": 6,
+      "effects": { "mood": 2, "hp": -8, "intelligence": -1 }
+    },
+    {
+      "id": "first_job",
+      "title": "找到第一份工作",
+      "description": "你拿到工资了，开始真正独立。",
+      "minAge": 18,
+      "maxAge": 35,
+      "weight": 6,
+      "once": true,
+      "conditions": [
+        { "stat": "intelligence", "op": ">=", "value": 8 }
+      ],
+      "effects": { "wealth": 6, "mood": 2 }
+    },
+    {
+      "id": "startup_fail",
+      "title": "创业受挫",
+      "description": "你尝试创业失败，压力倍增。",
+      "minAge": 20,
+      "maxAge": 45,
+      "weight": 3,
+      "conditions": [
+        { "stat": "wealth", "op": ">=", "value": 10 }
+      ],
+      "effects": { "wealth": -8, "mood": -3 }
+    },
+    {
+      "id": "promotion",
+      "title": "升职加薪",
+      "description": "能力被认可，你的生活质量提升了。",
+      "minAge": 24,
+      "maxAge": 55,
+      "weight": 4,
+      "conditions": [
+        { "stat": "intelligence", "op": ">=", "value": 12 }
+      ],
+      "effects": { "wealth": 8, "mood": 2 }
+    },
+    {
+      "id": "marathon",
+      "title": "参加半程马拉松",
+      "description": "你突破了自己，身体和心态都变更好。",
+      "minAge": 16,
+      "maxAge": 50,
+      "weight": 4,
+      "effects": { "strength": 2, "mood": 1, "hp": 4 }
+    },
+    {
+      "id": "major_illness",
+      "title": "突发重病",
+      "description": "你遭遇了严重健康危机。",
+      "minAge": 35,
+      "maxAge": 90,
+      "weight": 2,
+      "effects": { "hp": -35, "mood": -4 }
+    },
+    {
+      "id": "peaceful_end",
+      "title": "寿终正寝",
+      "description": "你平静地走完了一生。",
+      "minAge": 88,
+      "maxAge": 110,
+      "weight": 1,
+      "once": true,
+      "death": true
+    }
+  ]
+}
