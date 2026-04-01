@@ -57,8 +57,8 @@ git push
 
 配置文件：`events.json`
 
-- `settings.maxAge`：最大年龄（当前仅用于配置语义，终局主要由事件或死亡概率触发）
-- `settings.baseDeathByAge`：年龄自然死亡概率规则，按年龄阈值生效
+- `settings.maxSiege`：最大攻城次数（达到上限后终局）
+- `settings.baseDeathBySiege`：按攻城次数触发的失败概率规则
 - `initialStats`：初始属性
 - `events`：事件数组
 
@@ -67,7 +67,7 @@ git push
 - `id`：事件唯一 ID
 - `title`：事件标题
 - `description`：事件描述
-- `minAge` / `maxAge`：触发年龄范围
+- `minSiege` / `maxSiege`：触发攻城次数范围
 - `weight`：权重，越高越容易被抽到
 - `once`：是否只触发一次（可选）
 - `conditions`：前置条件（可选）
@@ -79,7 +79,7 @@ git push
 ```json
 {
   "conditions": [
-    { "stat": "intelligence", "op": ">=", "value": 10 }
+    { "stat": "demolish", "op": ">=", "value": 10000 }
   ]
 }
 ```
@@ -91,12 +91,12 @@ git push
 ```json
 {
   "effects": {
-    "hp": -10,
-    "wealth": 5,
-    "mood": 2
+    "power": -2000,
+    "crusade": 80,
+    "merit": 1000
   }
 }
 ```
 
-可用属性：`hp`, `intelligence`, `strength`, `mood`, `wealth`
+可用属性：`power`, `demolish`, `occupy`, `merit`, `crusade`
 

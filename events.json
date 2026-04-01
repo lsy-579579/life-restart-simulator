@@ -1,119 +1,118 @@
 {
   "settings": {
-    "maxAge": 90,
-    "baseDeathByAge": [
-      { "age": 60, "chance": 0.01 },
-      { "age": 70, "chance": 0.03 },
-      { "age": 80, "chance": 0.08 },
-      { "age": 90, "chance": 1.0 }
+    "maxSiege": 30,
+    "baseDeathBySiege": [
+      { "siege": 20, "chance": 0.02 },
+      { "siege": 25, "chance": 0.05 },
+      { "siege": 30, "chance": 1.0 }
     ]
   },
   "initialStats": {
-    "hp": 100,
-    "intelligence": 5,
-    "strength": 5,
-    "mood": 5,
-    "wealth": 5
+    "power": 30000,
+    "demolish": 1000,
+    "occupy": 50,
+    "merit": 10000,
+    "crusade": 20
   },
   "events": [
     {
       "id": "kindergarten",
-      "title": "幼儿园才艺表演",
-      "description": "你在台上背古诗，赢得老师夸奖。",
-      "minAge": 3,
-      "maxAge": 6,
+      "title": "新兵誓师",
+      "description": "主将亲临校场，士气大振，三军愿效死力。",
+      "minSiege": 1,
+      "maxSiege": 5,
       "weight": 8,
       "once": true,
-      "effects": { "mood": 2, "intelligence": 1 }
+      "effects": { "merit": 1000, "demolish": 500 }
     },
     {
       "id": "fall_sick",
-      "title": "换季感冒",
-      "description": "你发烧躺了两天，状态有点差。",
-      "minAge": 1,
-      "maxAge": 90,
+      "title": "军粮告急",
+      "description": "前线补给迟滞，部曲疲惫，军心略有波动。",
+      "minSiege": 1,
+      "maxSiege": 30,
       "weight": 6,
-      "effects": { "hp": -10, "mood": -1 }
+      "effects": { "power": -2000, "merit": -800 }
     },
     {
       "id": "study_hard",
-      "title": "自律学习",
-      "description": "你坚持学习，成绩明显进步。",
-      "minAge": 8,
-      "maxAge": 22,
+      "title": "工事整训",
+      "description": "工匠与军士日夜操练，攻城器械效率显著提升。",
+      "minSiege": 4,
+      "maxSiege": 20,
       "weight": 9,
-      "effects": { "intelligence": 2, "mood": -1 }
+      "effects": { "demolish": 3500, "merit": -500 }
     },
     {
       "id": "gaming_night",
-      "title": "通宵打游戏",
-      "description": "你玩得很爽，但第二天有些疲惫。",
-      "minAge": 12,
-      "maxAge": 35,
+      "title": "夜袭奇谋",
+      "description": "夜袭虽斩获颇丰，但部队消耗亦不小。",
+      "minSiege": 6,
+      "maxSiege": 24,
       "weight": 6,
-      "effects": { "mood": 2, "hp": -8, "intelligence": -1 }
+      "effects": { "merit": 1800, "power": -2500, "demolish": -1000 }
     },
     {
       "id": "first_job",
-      "title": "找到第一份工作",
-      "description": "你拿到工资了，开始真正独立。",
-      "minAge": 18,
-      "maxAge": 35,
+      "title": "募兵扩军",
+      "description": "府库拨款，军营扩编，精锐兵源持续补入。",
+      "minSiege": 8,
+      "maxSiege": 24,
       "weight": 6,
       "once": true,
       "conditions": [
-        { "stat": "intelligence", "op": ">=", "value": 8 }
+        { "stat": "demolish", "op": ">=", "value": 12000 }
       ],
-      "effects": { "wealth": 6, "mood": 2 }
+      "effects": { "crusade": 80, "merit": 2500 }
     },
     {
       "id": "startup_fail",
-      "title": "创业受挫",
-      "description": "你尝试创业失败，压力倍增。",
-      "minAge": 20,
-      "maxAge": 45,
+      "title": "前线失利",
+      "description": "侧翼阵地被破，主力回撤，战局一度被动。",
+      "minSiege": 10,
+      "maxSiege": 26,
       "weight": 3,
       "conditions": [
-        { "stat": "wealth", "op": ">=", "value": 10 }
+        { "stat": "crusade", "op": ">=", "value": 200 }
       ],
-      "effects": { "wealth": -8, "mood": -3 }
+      "effects": { "crusade": -100, "merit": -3000 }
     },
     {
       "id": "promotion",
-      "title": "升职加薪",
-      "description": "能力被认可，你的生活质量提升了。",
-      "minAge": 24,
-      "maxAge": 55,
+      "title": "封赏三军",
+      "description": "主将论功行赏，军纪严整，诸营战意高昂。",
+      "minSiege": 12,
+      "maxSiege": 28,
       "weight": 4,
       "conditions": [
-        { "stat": "intelligence", "op": ">=", "value": 12 }
+        { "stat": "demolish", "op": ">=", "value": 25000 }
       ],
-      "effects": { "wealth": 8, "mood": 2 }
+      "effects": { "crusade": 120, "merit": 3200 }
     },
     {
       "id": "marathon",
-      "title": "参加半程马拉松",
-      "description": "你突破了自己，身体和心态都变更好。",
-      "minAge": 16,
-      "maxAge": 50,
+      "title": "奇袭拔寨",
+      "description": "先登营突进成功，连下数寨，疆域稳步扩张。",
+      "minSiege": 6,
+      "maxSiege": 25,
       "weight": 4,
-      "effects": { "strength": 2, "mood": 1, "hp": 4 }
+      "effects": { "occupy": 60, "merit": 1000, "power": 2500 }
     },
     {
       "id": "major_illness",
-      "title": "突发重病",
-      "description": "你遭遇了严重健康危机。",
-      "minAge": 35,
-      "maxAge": 90,
+      "title": "主城遭围",
+      "description": "敌军合围主城，多线告急，统帅压力骤增。",
+      "minSiege": 15,
+      "maxSiege": 30,
       "weight": 2,
-      "effects": { "hp": -35, "mood": -4 }
+      "effects": { "power": -12000, "merit": -4000 }
     },
     {
       "id": "peaceful_end",
-      "title": "寿终正寝",
-      "description": "你平静地走完了一生。",
-      "minAge": 88,
-      "maxAge": 110,
+      "title": "凯旋收官",
+      "description": "旌旗凯旋，诸侯来朝，本赛季以胜势收官。",
+      "minSiege": 29,
+      "maxSiege": 30,
       "weight": 1,
       "once": true,
       "death": true

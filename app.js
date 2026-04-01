@@ -1,10 +1,10 @@
 const els = {
-  age: document.getElementById("age"),
-  hp: document.getElementById("hp"),
-  intelligence: document.getElementById("intelligence"),
-  strength: document.getElementById("strength"),
-  mood: document.getElementById("mood"),
-  wealth: document.getElementById("wealth"),
+  siege: document.getElementById("siege"),
+  power: document.getElementById("power"),
+  demolish: document.getElementById("demolish"),
+  occupy: document.getElementById("occupy"),
+  merit: document.getElementById("merit"),
+  crusade: document.getElementById("crusade"),
   restartBtn: document.getElementById("restartBtn"),
   nextYearBtn: document.getElementById("nextYearBtn"),
   autoBtn: document.getElementById("autoBtn"),
@@ -12,12 +12,20 @@ const els = {
 };
 
 const state = {
-  age: 0,
+  siege: 0,
   alive: true,
-  stats: { hp: 0, intelligence: 0, strength: 0, mood: 0, wealth: 0 },
+  stats: { power: 0, demolish: 0, occupy: 0, merit: 0, crusade: 0 },
   firedOnceEvents: new Set(),
   config: null,
   autoRunning: false
+};
+
+const statMax = {
+  power: 60000,
+  demolish: 500000,
+  occupy: 1000,
+  merit: 10000000,
+  crusade: 1000
 };
 
 async function loadConfig() {
@@ -34,11 +42,8 @@ function clampStats(stats) {
       stats[key] = 0;
       continue;
     }
-    if (key === "hp") {
-      stats[key] = Math.max(0, Math.min(100, stats[key]));
-    } else {
-      stats[key] = Math.max(0, Math.min(999, stats[key]));
-    }
+    const max = statMax[key] ?? 999999999;
+    stats[key] = Math.max(0, Math.min(max, stats[key]));
   }
 }
 
@@ -83,8 +88,8 @@ function checkCondition(stats, condition) {
 function getAvailableEvents() {
   const allEvents = state.config.events || [];
   return allEvents.filter((event) => {
-    if (event.minAge != null && state.age < event.minAge) return false;
-    if (event.maxAge != null && state.age > event.maxAge) return false;
+    if (event.minSiege != null && state.siege < event.minSiege) return false;
+    if (event.maxSiege != null && state.siege > event.maxSiege) return false;
     if (event.once && state.firedOnceEvents.has(event.id)) return false;
     if (Array.isArray(event.conditions)) {
       for (const c of event.conditions) {
@@ -105,10 +110,10 @@ function applyEffects(effects) {
 }
 
 function getNaturalDeathChance() {
-  const rules = state.config.settings?.baseDeathByAge || [];
+  const rules = state.config.settings?.baseDeathBySiege || [];
   let chance = 0;
   for (const rule of rules) {
-    if (state.age >= rule.age) {
+    if (state.siege >= rule.siege) {
       chance = rule.chance;
     }
   }
@@ -122,38 +127,45 @@ function endLife(reason) {
   els.autoBtn.disabled = true;
   addLog(`【终局】${reason}`);
   const score =
-    state.age * 2 +
-    state.stats.intelligence +
-    state.stats.strength +
-    state.stats.mood +
-    state.stats.wealth;
-  addLog(`人生总结：享年 ${state.age} 岁，综合评分 ${score}。`);
+    state.siege * 10 +
+    state.stats.demolish +
+    state.stats.occupy +
+    state.stats.merit +
+    state.stats.crusade;
+  addLog(`战役总结：累计攻城 ${state.siege} 次，综合评分 ${score}。`);
 }
 
 function runOneYear() {
   if (!state.alive) return;
-  state.age += 1;
+  state.siege += 1;
 
-  state.stats.hp -= 1;
+  state.stats.power -= 500;
   clampStats(state.stats);
 
   const naturalDeathChance = getNaturalDeathChance();
-  if (Math.random() < naturalDeathChance || state.stats.hp <= 0) {
-    endLife("身体机能衰退，你离开了这个世界。");
+  if (Math.random() < naturalDeathChance || state.stats.power <= 0) {
+    endLife("势力溃散，你的城池全面失守。");
+    render();
+    return;
+  }
+
+  const maxSiege = state.config.settings?.maxSiege ?? 30;
+  if (state.siege >= maxSiege) {
+    endLife("攻城次数到达上限，本次征程结束。");
     render();
     return;
   }
 
   const available = getAvailableEvents();
   if (available.length === 0) {
-    addLog(`${state.age}岁：这一年平平淡淡。`);
+    addLog(`第${state.siege}次攻城：战局平稳，无重大变化。`);
     render();
     return;
   }
 
   const event = randomByWeight(available);
   if (!event) {
-    addLog(`${state.age}岁：无事发生。`);
+    addLog(`第${state.siege}次攻城：无事发生。`);
     render();
     return;
   }
@@ -162,43 +174,43 @@ function runOneYear() {
     state.firedOnceEvents.add(event.id);
   }
   applyEffects(event.effects);
-  addLog(`${state.age}岁：${event.title}。${event.description}`);
+  addLog(`第${state.siege}次攻城：${event.title}。${event.description}`);
 
   if (event.death) {
-    endLife("命运在这一年画上句号。");
-  } else if (state.stats.hp <= 0) {
-    endLife("健康值归零，人生结束。");
+    endLife("战局在此役终结。");
+  } else if (state.stats.power <= 0) {
+    endLife("势力归零，战役失败。");
   }
 
   render();
 }
 
 function render() {
-  els.age.textContent = String(state.age);
-  els.hp.textContent = String(state.stats.hp);
-  els.intelligence.textContent = String(state.stats.intelligence);
-  els.strength.textContent = String(state.stats.strength);
-  els.mood.textContent = String(state.stats.mood);
-  els.wealth.textContent = String(state.stats.wealth);
+  els.siege.textContent = String(state.siege);
+  els.power.textContent = String(state.stats.power);
+  els.demolish.textContent = String(state.stats.demolish);
+  els.occupy.textContent = String(state.stats.occupy);
+  els.merit.textContent = String(state.stats.merit);
+  els.crusade.textContent = String(state.stats.crusade);
 }
 
 function resetGame() {
   const init = state.config.initialStats;
-  state.age = 0;
+  state.siege = 0;
   state.alive = true;
   state.autoRunning = false;
   state.firedOnceEvents = new Set();
   state.stats = {
-    hp: init.hp ?? 100,
-    intelligence: init.intelligence ?? 5,
-    strength: init.strength ?? 5,
-    mood: init.mood ?? 5,
-    wealth: init.wealth ?? 5
+    power: init.power ?? 30000,
+    demolish: init.demolish ?? 1000,
+    occupy: init.occupy ?? 50,
+    merit: init.merit ?? 10000,
+    crusade: init.crusade ?? 20
   };
   clampStats(state.stats);
 
   els.logList.innerHTML = "";
-  addLog("你出生了，新的旅程开始。");
+  addLog("主公登帐点兵，战役正式开启。");
   els.nextYearBtn.disabled = false;
   els.autoBtn.disabled = false;
   render();

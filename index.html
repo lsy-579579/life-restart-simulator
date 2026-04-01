@@ -3,31 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>三战重开模拟器</title>
+    <title>三国战役沙盘模拟器</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <main class="container">
-      <h1>三战重开模拟器</h1>
-      <p class="desc">可配置事件版：编辑 <code>events.json</code> 就能扩展剧情。</p>
+      <h1>三国战役沙盘模拟器</h1>
+      <p class="desc">赛季战役版：编辑 <code>events.json</code> 自定义军情事件。</p>
 
       <section class="panel stats">
-        <div>年龄：<span id="age">0</span></div>
-        <div>生命：<span id="hp">0</span></div>
-        <div>智力：<span id="intelligence">0</span></div>
-        <div>体质：<span id="strength">0</span></div>
-        <div>心情：<span id="mood">0</span></div>
-        <div>财富：<span id="wealth">0</span></div>
+        <div>攻城：<span id="siege">0</span>次</div>
+        <div>势力：<span id="power">0</span></div>
+        <div>拆除：<span id="demolish">0</span></div>
+        <div>占领：<span id="occupy">0</span>块</div>
+        <div>战功：<span id="merit">0</span></div>
+        <div>讨伐：<span id="crusade">0</span>个巨戟士</div>
       </section>
 
       <section class="panel actions">
-        <button id="restartBtn">重开人生</button>
-        <button id="nextYearBtn" disabled>过一年</button>
-        <button id="autoBtn" disabled>自动到结局</button>
+        <button id="restartBtn">重启战役</button>
+        <button id="nextYearBtn" disabled>推进一回合</button>
+        <button id="autoBtn" disabled>自动推演到终局</button>
       </section>
 
       <section class="panel">
-        <h2>人生日志</h2>
+        <h2>军情战报</h2>
         <ul id="logList"></ul>
       </section>
     </main>
