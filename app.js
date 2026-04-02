@@ -158,14 +158,14 @@ function runOneYear() {
 
   const available = getAvailableEvents();
   if (available.length === 0) {
-    addLog(`第${state.siege}次攻城：战局平稳，无重大变化。`);
+    addLog(`第${state.siege}天：战局平稳，无重大变化。`);
     render();
     return;
   }
 
   const event = randomByWeight(available);
   if (!event) {
-    addLog(`第${state.siege}次攻城：无事发生。`);
+    addLog(`第${state.siege}天：无事发生。`);
     render();
     return;
   }
@@ -174,7 +174,7 @@ function runOneYear() {
     state.firedOnceEvents.add(event.id);
   }
   applyEffects(event.effects);
-  addLog(`第${state.siege}次攻城：${event.title}。${event.description}`);
+  addLog(`第${state.siege}天：${event.title}。${event.description}`);
 
   if (event.death) {
     endLife("战局在此役终结。");

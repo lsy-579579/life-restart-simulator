@@ -109,8 +109,8 @@
     },
     {
       "id": "peaceful_end",
-      "title": "凯旋收官",
-      "description": "旌旗凯旋，诸侯来朝，本赛季以胜势收官。",
+      "title": "遇到雪卡索",
+      "description": "在别人开城的时候，选择了开盘，最终把号都输没了",
       "minSiege": 29,
       "maxSiege": 30,
       "weight": 1,
