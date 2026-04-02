@@ -104,6 +104,9 @@ function applyEffects(effects) {
   if (!effects) return;
   for (const [k, v] of Object.entries(effects)) {
     if (typeof v !== "number") continue;
+    // 规则：只有“势力(power)”允许减少；其它维度在事件里出现负数时忽略（保证只增不减）
+    if (!Object.prototype.hasOwnProperty.call(state.stats, k)) continue;
+    if (k !== "power" && v < 0) continue;
     state.stats[k] = (state.stats[k] || 0) + v;
   }
   clampStats(state.stats);
@@ -139,11 +142,23 @@ function runOneYear() {
   if (!state.alive) return;
   state.siege += 1;
 
-  state.stats.power -= 500;
+  // 随时间推演的“基础成长”：拆除/占领/战功/讨伐只增不减
+  // 势力则会整体呈波动（基础成长为正，但事件里仍可能拉低）
+  state.stats.power += 1500;
+  state.stats.demolish += 5000;
+  state.stats.occupy += 20;
+  state.stats.merit += 200000;
+  state.stats.crusade += 15;
   clampStats(state.stats);
 
+  if (state.stats.power <= 0) {
+    endLife("势力归零，战役失败。");
+    render();
+    return;
+  }
+
   const naturalDeathChance = getNaturalDeathChance();
-  if (Math.random() < naturalDeathChance || state.stats.power <= 0) {
+  if (Math.random() < naturalDeathChance) {
     endLife("势力溃散，你的城池全面失守。");
     render();
     return;
