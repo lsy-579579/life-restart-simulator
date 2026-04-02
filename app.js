@@ -14,8 +14,7 @@ const els = {
 const state = {
   siege: 0,
   alive: true,
-  // 先用默认初始值占位：避免页面刚打开时全是 0（等 events.json 加载完会被 resetGame 覆盖）
-  stats: { power: 30000, demolish: 1000, occupy: 50, merit: 10000, crusade: 20 },
+  stats: { power: 0, demolish: 0, occupy: 0, merit: 0, crusade: 0 },
   firedOnceEvents: new Set(),
   config: null,
   autoRunning: false
@@ -145,14 +144,14 @@ function runOneYear() {
 
   const naturalDeathChance = getNaturalDeathChance();
   if (Math.random() < naturalDeathChance || state.stats.power <= 0) {
-    endLife("地被地奴翻光，饿死了");
+    endLife("势力溃散，你的城池全面失守。");
     render();
     return;
   }
 
   const maxSiege = state.config.settings?.maxSiege ?? 30;
   if (state.siege >= maxSiege) {
-    endLife("单开洛阳，天下归心");
+    endLife("攻城次数到达上限，本次征程结束。");
     render();
     return;
   }
