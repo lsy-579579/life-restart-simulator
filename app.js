@@ -145,14 +145,14 @@ function runOneYear() {
 
   const naturalDeathChance = getNaturalDeathChance();
   if (Math.random() < naturalDeathChance || state.stats.power <= 0) {
-    endLife("势力溃散，你的城池全面失守。");
+    endLife("地被地奴翻光，饿死了");
     render();
     return;
   }
 
   const maxSiege = state.config.settings?.maxSiege ?? 30;
   if (state.siege >= maxSiege) {
-    endLife("攻城次数到达上限，本次征程结束。");
+    endLife("单开洛阳，天下归心");
     render();
     return;
   }
