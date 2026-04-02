@@ -14,7 +14,8 @@ const els = {
 const state = {
   siege: 0,
   alive: true,
-  stats: { power: 0, demolish: 0, occupy: 0, merit: 0, crusade: 0 },
+  // 先用默认初始值占位：避免页面刚打开时全是 0（等 events.json 加载完会被 resetGame 覆盖）
+  stats: { power: 30000, demolish: 1000, occupy: 50, merit: 10000, crusade: 20 },
   firedOnceEvents: new Set(),
   config: null,
   autoRunning: false
