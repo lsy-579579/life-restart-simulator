@@ -210,7 +210,7 @@ function resetGame() {
   clampStats(state.stats);
 
   els.logList.innerHTML = "";
-  addLog("主公登帐点兵，战役正式开启。");
+  addLog("主公选择落州，赛季正式开启。");
   els.nextYearBtn.disabled = false;
   els.autoBtn.disabled = false;
   render();
